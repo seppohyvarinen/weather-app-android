@@ -3,6 +3,7 @@ package fi.tuni.weather_app_kotlin
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -22,7 +23,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         downloadUrlAsync(this, url) {
-            print(it)
+            if (it != null) {
+                Log.d("tagg", it)
+            }
+
         }
     }
 
