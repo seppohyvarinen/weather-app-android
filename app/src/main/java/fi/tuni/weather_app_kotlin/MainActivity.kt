@@ -1,9 +1,10 @@
 package fi.tuni.weather_app_kotlin
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.location.FusedLocationProviderClient
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -11,7 +12,7 @@ import java.net.URL
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-
+    private val mFusedLocationClient: FusedLocationProviderClient? = null
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=11&lon=11&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
