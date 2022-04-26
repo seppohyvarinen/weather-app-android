@@ -9,3 +9,5 @@ Also the app shows the user a 5 day forecast.
 
 App is written using Kotlin and it's target devices are Androids.
 
+App uses openweathermap API for fetching the weather information.
+
