@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import java.io.BufferedReader
@@ -56,6 +57,13 @@ class MainActivity : AppCompatActivity() {
                     if (it != null) {
                         Log.d("tagg", it)
                     }
+                    val mp = ObjectMapper()
+                    val myObject: WeatherJsonObject = mp.readValue(
+                        it,
+                        WeatherJsonObject::class.java
+                    )
+                    val weatherData: MutableList<String>? = myObject.data
+
 
                 }
                 Log.d( "Latitude:", latitude.toString())
