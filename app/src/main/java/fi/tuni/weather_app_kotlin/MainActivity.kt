@@ -21,9 +21,10 @@ class MainActivity : AppCompatActivity() {
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
 
     private lateinit var myFusedLocationClient: FusedLocationProviderClient
-    private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=11&lon=11&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,13 @@ class MainActivity : AppCompatActivity() {
                 // getting the last known or current location
                 latitude = location.latitude
                 longitude = location.longitude
+                url = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
+                downloadUrlAsync(this, url) {
+                    if (it != null) {
+                        Log.d("tagg", it)
+                    }
 
+                }
                 Log.d( "Latitude:", latitude.toString())
 
             }
@@ -84,12 +91,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getCurrentLocation()
-        downloadUrlAsync(this, url) {
-            if (it != null) {
-                Log.d("tagg", it)
-            }
 
-        }
     }
 
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {
