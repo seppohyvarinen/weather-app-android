@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
-
+    lateinit var cityName : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         // initialize fused location client
         myFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        cityName = findViewById<TextView>(R.id.cityName)
     }
 
     private fun getCurrentLocation() {
@@ -62,11 +64,12 @@ class MainActivity : AppCompatActivity() {
                         it,
                         WeatherJsonObject::class.java
                     )
-                    val weatherData: MutableList<String>? = myObject.data
-
-
+                    val weatherData: String? = myObject.name
+                    runOnUiThread() {
+                        cityName.text = weatherData.toString()
+                    }
                 }
-                Log.d( "Latitude:", latitude.toString())
+
 
             }
             .addOnFailureListener {
