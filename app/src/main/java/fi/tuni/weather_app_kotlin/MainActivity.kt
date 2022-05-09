@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private var longitude: Double = 0.0
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     lateinit var cityName : TextView
+    lateinit var temperature : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         // initialize fused location client
         myFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         cityName = findViewById<TextView>(R.id.cityName)
+        temperature = findViewById<TextView>(R.id.temperature)
     }
 
     private fun getCurrentLocation() {
@@ -64,9 +66,9 @@ class MainActivity : AppCompatActivity() {
                         it,
                         WeatherJsonObject::class.java
                     )
-                    val weatherData: String? = myObject.name
+                    val loc: String? = myObject.name
                     runOnUiThread() {
-                        cityName.text = weatherData.toString()
+                        cityName.text = loc.toString()
                     }
                 }
 
