@@ -17,6 +17,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread() {
                         cityName.text = loc.toString()
                         if (mainData != null) {
-                            temperature.text = mainData.temp.toString()
+                            temperature.text = mainData.temp?.roundToInt().toString() + "°C"
                         }
                     }
                 }
