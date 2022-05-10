@@ -31,7 +31,7 @@
         >
         <TextView
             android:id="@+id/temperature"
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-condensed"
@@ -40,8 +40,20 @@
             android:layout_marginLeft="20dp"
 
             android:textSize="40dp"
-            android:text="0C" />
+            android:text="-" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="160dp"
+            android:fontFamily="sans-serif-condensed"
+            android:orientation="vertical"
+            android:textColor="#482E55"
 
+
+            android:textSize="20dp"
+            android:text="-" />
 
     </LinearLayout>
 
