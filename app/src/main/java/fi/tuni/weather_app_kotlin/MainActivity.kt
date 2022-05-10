@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
 
     private lateinit var myFusedLocationClient: FusedLocationProviderClient
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
-    private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
+    private var lat: Double = 0.0
+    private var lon: Double = 0.0
+    private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     lateinit var cityName : TextView
     lateinit var temperature : TextView
 
@@ -54,9 +54,12 @@ class MainActivity : AppCompatActivity() {
         myFusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 // getting the last known or current location
-                latitude = location.latitude
-                longitude = location.longitude
-                url = "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
+                if (location != null) {
+                    lat = location.latitude
+                    lon = location.longitude
+                }
+
+                url = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
                 downloadUrlAsync(this, url) {
                     if (it != null) {
                         Log.d("tagg", it)
@@ -67,8 +70,12 @@ class MainActivity : AppCompatActivity() {
                         WeatherJsonObject::class.java
                     )
                     val loc: String? = myObject.name
+                    val mainData : WeatherMain? = myObject.main
                     runOnUiThread() {
                         cityName.text = loc.toString()
+                        if (mainData != null) {
+                            temperature.text = mainData.temp.toString()
+                        }
                     }
                 }
 
