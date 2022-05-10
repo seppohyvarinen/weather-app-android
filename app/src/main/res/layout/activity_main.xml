@@ -8,6 +8,17 @@
     android:orientation="vertical"
     android:background="@drawable/gradient_bg">
     tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="200dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/searchbar_bg"
+        android:hint="Type location here..."
+        android:inputType="text" />
 
 
     <TextView
@@ -20,6 +31,7 @@
         android:textColor="#482E55"
         android:gravity="center"
         android:textSize="32dp"
+        
         android:text="Fetching location..." />
     <LinearLayout
         android:layout_width="match_parent"

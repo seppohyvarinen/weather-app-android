@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var cityName : TextView
     lateinit var temperature : TextView
     lateinit var desc : TextView
+    lateinit var searchBar : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         // initialize fused location client
         myFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // initialize all TextViews and EditText
         cityName = findViewById<TextView>(R.id.cityName)
         temperature = findViewById<TextView>(R.id.temperature)
         desc = findViewById<TextView>(R.id.description)
+        searchBar = findViewById<EditText>(R.id.search_bar)
     }
 
     private fun getCurrentLocation() {
