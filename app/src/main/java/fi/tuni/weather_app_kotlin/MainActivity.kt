@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                             temperature.text = mainData.temp?.roundToInt().toString() + "°C"
                         }
                         if (descObj != null) {
-                            desc.text = descObj.get(0).description.toString()
+                            desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
                             Log.d("hghg", desc.text.toString())
                         }
                     }
