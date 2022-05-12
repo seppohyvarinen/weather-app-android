@@ -2,15 +2,18 @@ package fi.tuni.weather_app_kotlin
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -135,6 +138,20 @@ class MainActivity : AppCompatActivity() {
     fun getWeather(btn : View) {
         url = "https://api.openweathermap.org/data/2.5/weather?q=${searchBar.text}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
         fetchAndUpdateUI()
+        hideKeyboard()
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {
