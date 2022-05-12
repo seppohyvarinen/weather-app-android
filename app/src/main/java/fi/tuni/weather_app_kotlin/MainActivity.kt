@@ -112,26 +112,29 @@ class MainActivity : AppCompatActivity() {
     private fun fetchAndUpdateUI() {
         downloadUrlAsync(this, url) {
             if (it != null) {
-                Log.d("tagg", it)
-            }
-            val mp = ObjectMapper()
-            val myObject: WeatherJsonObject = mp.readValue(
-                it,
-                WeatherJsonObject::class.java
-            )
-            val loc: String? = myObject.name
-            val mainData : WeatherMain? = myObject.main
-            val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
-            runOnUiThread() {
-                cityName.text = loc.toString()
-                if (mainData != null) {
-                    temperature.text = mainData.temp?.roundToInt().toString() + "°C"
+                val mp = ObjectMapper()
+                val myObject: WeatherJsonObject = mp.readValue(
+                    it,
+                    WeatherJsonObject::class.java
+                )
+
+
+                val loc: String? = myObject.name
+                val mainData : WeatherMain? = myObject.main
+                val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
+                runOnUiThread() {
+                    cityName.text = loc.toString()
+                    if (mainData != null) {
+                        temperature.text = mainData.temp?.roundToInt().toString() + "°C"
+                    }
+                    if (descObj != null) {
+                        desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
+                        Log.d("hghg", desc.text.toString())
+                    }
                 }
-                if (descObj != null) {
-                    desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
-                    Log.d("hghg", desc.text.toString())
-                }
             }
+
+
         }
     }
 
@@ -169,17 +172,30 @@ class MainActivity : AppCompatActivity() {
 
         val myUrl = URL(url)
         val conn = myUrl.openConnection() as HttpURLConnection
-        val reader = BufferedReader(InputStreamReader(conn.getInputStream()));
+        Log.d("koodi", conn.responseCode.toString())
 
-        return buildString {
-            reader.use {
-                var line: String? = null
-                do {
-                    line = it.readLine()
-                    append(line)
-                } while (line != null)
+        if (conn.responseCode != 404) {
+            val reader = BufferedReader(InputStreamReader(conn.getInputStream()));
+
+            return buildString {
+                reader.use {
+                    var line: String? = null
+                    do {
+                        line = it.readLine()
+                        append(line)
+                    } while (line != null)
+                }
             }
+        }  else {
+
+            runOnUiThread(){
+                cityName.text = "Can't find this location"
+                temperature.text = "-"
+                desc.text = "-"
+            }
+            return null
         }
+
 
     }
 }
