@@ -68,29 +68,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 url = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
-                downloadUrlAsync(this, url) {
-                    if (it != null) {
-                        Log.d("tagg", it)
-                    }
-                    val mp = ObjectMapper()
-                    val myObject: WeatherJsonObject = mp.readValue(
-                        it,
-                        WeatherJsonObject::class.java
-                    )
-                    val loc: String? = myObject.name
-                    val mainData : WeatherMain? = myObject.main
-                    val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
-                    runOnUiThread() {
-                        cityName.text = loc.toString()
-                        if (mainData != null) {
-                            temperature.text = mainData.temp?.roundToInt().toString() + "°C"
-                        }
-                        if (descObj != null) {
-                            desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
-                            Log.d("hghg", desc.text.toString())
-                        }
-                    }
-                }
+                fetchAndUpdateUI()
 
 
             }
@@ -125,6 +103,32 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         getCurrentLocation()
 
+    }
+
+    private fun fetchAndUpdateUI() {
+        downloadUrlAsync(this, url) {
+            if (it != null) {
+                Log.d("tagg", it)
+            }
+            val mp = ObjectMapper()
+            val myObject: WeatherJsonObject = mp.readValue(
+                it,
+                WeatherJsonObject::class.java
+            )
+            val loc: String? = myObject.name
+            val mainData : WeatherMain? = myObject.main
+            val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
+            runOnUiThread() {
+                cityName.text = loc.toString()
+                if (mainData != null) {
+                    temperature.text = mainData.temp?.roundToInt().toString() + "°C"
+                }
+                if (descObj != null) {
+                    desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
+                    Log.d("hghg", desc.text.toString())
+                }
+            }
+        }
     }
 
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {
