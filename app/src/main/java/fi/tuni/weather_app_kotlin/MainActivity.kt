@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -129,6 +130,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun getWeather(btn : View) {
+        url = "https://api.openweathermap.org/data/2.5/weather?q=${searchBar.text}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
+        fetchAndUpdateUI()
     }
 
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {

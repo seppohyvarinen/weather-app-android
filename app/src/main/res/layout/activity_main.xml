@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="10dp"
-        android:onClick="clicked"
+        android:onClick="getWeather"
         android:text="Get Weather"
         android:textColor="@color/teal_700"
         app:backgroundTint="#7DFDE8" />
