@@ -3,6 +3,7 @@ package fi.tuni.weather_app_kotlin
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -198,5 +199,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    fun getForecast(btn: View) {
+        val intent = Intent(this, ForecastActivity::class.java)
+        intent.putExtra("latitude", lat.toString())
+        intent.putExtra("longitude", lon.toString())
+        startActivity(intent)
     }
 }
