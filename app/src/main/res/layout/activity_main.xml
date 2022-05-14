@@ -10,7 +10,7 @@
     tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_height="450dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
@@ -86,6 +86,24 @@
             android:textSize="20dp"
             android:text="-" />
 
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+
+        >
+        <Button
+            android:id="@+id/Get_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getForecast"
+            android:text="Get forecast"
+            android:layout_margin="20dp"
+            android:textColor="@color/teal_700"
+            app:backgroundTint="#7DFDE8" />
     </LinearLayout>
 
 

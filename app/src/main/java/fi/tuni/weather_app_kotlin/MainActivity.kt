@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                 val loc: String? = myObject.name
                 val mainData : WeatherMain? = myObject.main
                 val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
+                Log.d("check", descObj.toString())
                 runOnUiThread() {
                     cityName.text = loc.toString()
                     if (mainData != null) {
