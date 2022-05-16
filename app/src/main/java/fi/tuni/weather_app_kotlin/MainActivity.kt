@@ -120,7 +120,8 @@ class MainActivity : AppCompatActivity() {
                     WeatherJsonObject::class.java
                 )
 
-
+                lat = myObject.coord!!.lat
+                lon = myObject.coord!!.lon
                 val loc: String? = myObject.name
                 val mainData : WeatherMain? = myObject.main
                 val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
