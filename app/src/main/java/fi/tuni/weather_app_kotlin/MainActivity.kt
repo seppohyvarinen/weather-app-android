@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myFusedLocationClient: FusedLocationProviderClient
     private var lat: Double = 0.0
     private var lon: Double = 0.0
+    private var alreadyFetched : Boolean = false
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     lateinit var cityName : TextView
     lateinit var temperature : TextView
@@ -50,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         temperature = findViewById<TextView>(R.id.temperature)
         desc = findViewById<TextView>(R.id.description)
         searchBar = findViewById<EditText>(R.id.search_bar)
+
+        if (!alreadyFetched) {
+            getCurrentLocation()
+            alreadyFetched = true
+        }
+
     }
 
     private fun getCurrentLocation() {
@@ -106,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getCurrentLocation()
+
 
     }
 
@@ -209,4 +216,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("longitude", lon.toString())
         startActivity(intent)
     }
+
+
 }

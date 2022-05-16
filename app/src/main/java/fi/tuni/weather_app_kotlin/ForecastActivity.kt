@@ -48,6 +48,7 @@ class ForecastActivity : AppCompatActivity() {
                             ForecastJsonObject::class.java
                         )
                         val data: MutableList<ForecastListObj>? = myObject.list
+
                         var adapter =
                             ArrayAdapter(this, R.layout.item, R.id.myTextView, mutableListOf<ForecastListObj>());
                         listView.setAdapter(adapter);
