@@ -39,9 +39,9 @@ class ForecastActivity : AppCompatActivity() {
 
                         Log.d("test", it)
                         val mp = ObjectMapper()
-                        val myObject: WeatherJsonObject = mp.readValue(
+                        val myObject: ForecastJsonObject = mp.readValue(
                             it,
-                            WeatherJsonObject::class.java
+                            ForecastJsonObject::class.java
                         )
 
 
