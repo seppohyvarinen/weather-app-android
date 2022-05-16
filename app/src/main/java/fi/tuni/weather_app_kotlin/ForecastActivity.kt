@@ -3,7 +3,9 @@ package fi.tuni.weather_app_kotlin
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -18,11 +20,13 @@ import kotlin.math.roundToInt
 
 class ForecastActivity : AppCompatActivity() {
 
-    lateinit var extraBox: TextView
+    lateinit var listView: ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
-        extraBox = findViewById<TextView>(R.id.extraTest)
+        listView = findViewById(R.id.listView)
+
         var extras: Bundle? = intent.extras
 
 
@@ -43,6 +47,11 @@ class ForecastActivity : AppCompatActivity() {
                             it,
                             ForecastJsonObject::class.java
                         )
+                        val data: MutableList<ForecastListObj>? = myObject.list
+                        var adapter =
+                            ArrayAdapter(this, R.layout.item, R.id.myTextView, mutableListOf<ForecastListObj>());
+                        listView.setAdapter(adapter);
+                        adapter.addAll(data!!)
 
 
                     }

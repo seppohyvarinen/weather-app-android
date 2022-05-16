@@ -113,6 +113,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchAndUpdateUI() {
         downloadUrlAsync(this, url) {
             if (it != null) {
+                Log.d("ccc", it)
                 val mp = ObjectMapper()
                 val myObject: WeatherJsonObject = mp.readValue(
                     it,

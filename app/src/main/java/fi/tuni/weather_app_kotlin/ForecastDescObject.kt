@@ -1,7 +1,5 @@
 package fi.tuni.weather_app_kotlin
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class ForecastMainObj(var temp: Double? = 0.0)
+data class ForecastDescObject(var description : String? = null)
