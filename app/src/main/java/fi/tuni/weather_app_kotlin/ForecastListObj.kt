@@ -11,7 +11,7 @@ data class ForecastListObj(var dt: Long? = null,  var main : ForecastMainObj? = 
 
     private fun dateFormat(timestamp: Long): String? {
         val simple = SimpleDateFormat(
-            "dd.MM.yy, HH:mm",
+            "dd.MM, HH:mm",
             Locale("fi", "FI")
         )
         val date = (timestamp * 1000)
