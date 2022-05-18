@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var temperature : TextView
     lateinit var desc : TextView
     lateinit var searchBar : EditText
+    lateinit var wImg : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         temperature = findViewById<TextView>(R.id.temperature)
         desc = findViewById<TextView>(R.id.description)
         searchBar = findViewById<EditText>(R.id.search_bar)
+        wImg = findViewById<ImageView>(R.id.weatherImage)
 
         if (!alreadyFetched) {
             getCurrentLocation()
@@ -131,7 +135,9 @@ class MainActivity : AppCompatActivity() {
                 lon = myObject.coord!!.lon
                 val loc: String? = myObject.name
                 val mainData : WeatherMain? = myObject.main
+
                 val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
+
                 Log.d("check", descObj.toString())
                 runOnUiThread() {
                     cityName.text = loc.toString()
@@ -141,6 +147,9 @@ class MainActivity : AppCompatActivity() {
                     if (descObj != null) {
                         desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
                         Log.d("hghg", desc.text.toString())
+                        Picasso.get().load("https://openweathermap.org/img/w/" +
+                                descObj.get(0).icon +
+                                ".png").into(wImg);
                     }
                 }
             }
