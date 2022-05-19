@@ -9,16 +9,4 @@ import java.util.*
 data class ForecastListObj(var dt: Long? = null,  var main : ForecastMainObj? = null, var weather : MutableList<ForecastDescObject>? = null) {
 
 
-    private fun dateFormat(timestamp: Long): String? {
-        val simple = SimpleDateFormat(
-            "EEEE, HH:mm",
-            Locale("en", "FI")
-        )
-        val date = (timestamp * 1000)
-        return simple.format(date)
-
-    }
-    override fun toString(): String {
-        return "${dateFormat(dt!!)}, ${main!!.temp}, ${weather!!.get(0).description}"
-    }
 }

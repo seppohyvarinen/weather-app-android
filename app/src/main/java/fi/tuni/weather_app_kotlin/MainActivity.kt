@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -34,13 +35,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myFusedLocationClient: FusedLocationProviderClient
     private var lat: Double = 0.0
     private var lon: Double = 0.0
-    private var alreadyFetched : Boolean = false
+    private var alreadyFetched : Boolean? = null
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     lateinit var cityName : TextView
     lateinit var temperature : TextView
     lateinit var desc : TextView
     lateinit var searchBar : EditText
     lateinit var wImg : ImageView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +58,15 @@ class MainActivity : AppCompatActivity() {
         desc = findViewById<TextView>(R.id.description)
         searchBar = findViewById<EditText>(R.id.search_bar)
         wImg = findViewById<ImageView>(R.id.weatherImage)
+        Log.d("Getting", "second")
 
-        if (!alreadyFetched) {
+        if(savedInstanceState?.getString("city") == null) {
             getCurrentLocation()
-            alreadyFetched = true
         }
+
+
+
+
 
     }
 
@@ -149,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("hghg", desc.text.toString())
                         Picasso.get().load("https://openweathermap.org/img/w/" +
                                 descObj.get(0).icon +
-                                ".png").into(wImg);
+                                ".png").into(wImg)
                     }
                 }
             }
@@ -225,6 +232,31 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("longitude", lon.toString())
         startActivity(intent)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        var saveThis = cityName.text
+        var saveUrl = url
+        outState.putString("city", saveThis.toString())
+        outState.putString("url", saveUrl.toString())
+        super.onSaveInstanceState(outState)
+        Log.d("TAG", "onSaveInstanceState()")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val restoreCity : String? = savedInstanceState.getString("city")
+        val restoreUrl : String? = savedInstanceState.getString("url")
+
+        if (restoreUrl != null && restoreCity != null) {
+            cityName.text = restoreCity
+            url = restoreUrl
+            Log.d("Getting", "first")
+            fetchAndUpdateUI()
+        }
+        Log.d("TAG", "onRestoreInstanceState()")
+    }
+
+
 
 
 }

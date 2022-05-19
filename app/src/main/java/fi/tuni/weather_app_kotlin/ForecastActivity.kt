@@ -1,12 +1,10 @@
 package fi.tuni.weather_app_kotlin
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.LocationServices
@@ -21,11 +19,13 @@ import kotlin.math.roundToInt
 class ForecastActivity : AppCompatActivity() {
 
     lateinit var listView: ListView
+    lateinit var wImg: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
         listView = findViewById(R.id.listView)
+
 
         var extras: Bundle? = intent.extras
 
@@ -41,7 +41,6 @@ class ForecastActivity : AppCompatActivity() {
                 ) {
                     if (it != null) {
 
-                        Log.d("test", it)
                         val mp = ObjectMapper()
                         val myObject: ForecastJsonObject = mp.readValue(
                             it,
@@ -49,10 +48,10 @@ class ForecastActivity : AppCompatActivity() {
                         )
                         val data: MutableList<ForecastListObj>? = myObject.list
 
-                        var adapter =
-                            ArrayAdapter(this, R.layout.item, R.id.myTextView, mutableListOf<ForecastListObj>());
+
+                        var adapter = CustomAdapter(this, data)
                         listView.setAdapter(adapter);
-                        adapter.addAll(data!!)
+
 
 
                     }
@@ -100,5 +99,13 @@ class ForecastActivity : AppCompatActivity() {
         }
 
 
+    }
+    override fun onBackPressed() {
+        // Send name = jaska back to first activity
+        val intent = Intent()
+        var fetched : Boolean = true
+        intent.putExtra("fetched", fetched)
+        setResult(RESULT_OK, intent);
+        super.onBackPressed()
     }
 }
