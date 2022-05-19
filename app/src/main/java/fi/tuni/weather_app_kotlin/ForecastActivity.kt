@@ -16,10 +16,19 @@ import java.net.URL
 import kotlin.concurrent.thread
 import kotlin.math.roundToInt
 
+
+/*
+This activity is launched when user clicks "Get Forecast" button in the MainActivity.
+This class handles fetching the forecast and showing the forecast to the user as ListView.
+ */
 class ForecastActivity : AppCompatActivity() {
 
     lateinit var listView: ListView
 
+    // Called when the activity is created. Here the app checks if there are extras passed in the Intent object.
+    // The extras should contain latitude and longitude information by which the forecast is then fetched.
+    // onCreate calls the downloadUrlAsync function which accepts a Unit returning lambda, where the received
+    // json is then mapped and displayed in the UI. The app uses a customized adapter with the ListView.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
@@ -63,7 +72,9 @@ class ForecastActivity : AppCompatActivity() {
         }
 
     }
-
+    // This function asynchronously fetches data from API. It creates a new thread and inside it calls
+    // getUrl method. The Unit returning function called "function" is then called in the UI thread.
+    // it is used in the onCreate function as lambda.
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {
         thread() {
             val lines: String? = getUrl(s)
@@ -74,6 +85,9 @@ class ForecastActivity : AppCompatActivity() {
         }
 
     }
+
+    // This function creates the HttpURLConnection and does the fetching from the API.
+    // The function returns a String constructed with buildString that contains the json data from API
 
     fun getUrl(url: String): String? {
 
