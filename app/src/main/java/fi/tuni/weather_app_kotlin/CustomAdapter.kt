@@ -15,6 +15,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
+
+/*
+CustomAdapter class is a customized adapter for the ListView to use.
+This class takes Activity and a MutableList as parameters and returns an ArrayAdapter object.
+
+To get the customized items to ListView, the getView function is overridden
+and it returns a desired View object.
+ */
 class CustomAdapter(
     private val context: Activity,
     private val list: MutableList<ForecastListObj>?
@@ -36,6 +44,8 @@ class CustomAdapter(
 
 
 
+        // This function is used to format the Date object so that date is converted to weekday
+        // and that seconds are omitted from the display.
         fun dateFormat(timestamp: Long): String? {
             val simple = SimpleDateFormat(
                 "EEEE, HH:mm",
@@ -50,6 +60,7 @@ class CustomAdapter(
         temp.text = "${list?.get(position)?.main?.temp?.roundToInt()} °C"
         desc.text = "${list?.get(position)?.weather?.get(0)?.description}"
 
+        //Picasso is used to load the weather icon to the view.
         Picasso.get().load("https://openweathermap.org/img/w/" +
                 list?.get(position)?.weather?.get(0)?.icon +
                 ".png").into(wIcon)
