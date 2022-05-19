@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myFusedLocationClient: FusedLocationProviderClient
     private var lat: Double = 0.0
     private var lon: Double = 0.0
-    private var alreadyFetched : Boolean? = null
     private var url : String = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
     lateinit var cityName : TextView
     lateinit var temperature : TextView

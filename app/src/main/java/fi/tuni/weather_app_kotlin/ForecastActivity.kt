@@ -19,7 +19,6 @@ import kotlin.math.roundToInt
 class ForecastActivity : AppCompatActivity() {
 
     lateinit var listView: ListView
-    lateinit var wImg: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
