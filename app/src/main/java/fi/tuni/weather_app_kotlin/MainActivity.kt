@@ -201,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         val conn = myUrl.openConnection() as HttpURLConnection
         Log.d("koodi", conn.responseCode.toString())
 
-        if (conn.responseCode != 404) {
+        if (conn.responseCode == 200) {
             val reader = BufferedReader(InputStreamReader(conn.getInputStream()));
 
             return buildString {
