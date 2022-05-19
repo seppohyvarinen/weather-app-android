@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var forecastBtn : Button
 
 
+    // Called when app is created. Initializes UI Components, the fusedproviderclient and checks the savedInstanceState Bundle.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,23 +58,30 @@ class MainActivity : AppCompatActivity() {
         wImg = findViewById<ImageView>(R.id.weatherImage)
         forecastBtn = findViewById<Button>(R.id.Get_forecast)
 
-
+        // If there is data by this key in the savedInstanceState Bundle,
+        // the app won't call the getCurrentLocation function, since it
+        // would cause undesired fetch when user has searched weather from somewhere else.
         if(savedInstanceState?.getString("city") == null) {
             getCurrentLocation()
         }
 
-
-
-
-
     }
 
+
+    /*
+
+    getCurrentLocation handles getting the device location. It checks whether user has granted permission
+    to use location, and if user hasn't it prompts user with request to use location.
+
+    The function uses fusedlocationprovider to achieve this.
+    */
+
     private fun getCurrentLocation() {
-        // checking location permission
+        // Check if there's a permission to use location
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // request permission
+            // Requesting the location permission
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQ_CODE);
 
@@ -82,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         myFusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
-                // getting the last known or current location
+                // Current or last known location
                 if (location != null) {
                     lat = location.latitude
                     lon = location.longitude
@@ -90,7 +98,6 @@ class MainActivity : AppCompatActivity() {
 
                 url = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
                 fetchAndUpdateUI()
-
 
             }
             .addOnFailureListener {
@@ -123,13 +130,17 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-
     }
 
+
+    //This function is called when getWeather function is called and when the user returns from forecast activity
+    // to ensure the latest fetched location is re-fetched.
+    // This function calls the downloadUrlAsync function, which accepts a Unit returning function as lambda,
+    // where the function maps the received json object and updates the UI (in UI thread)
     private fun fetchAndUpdateUI() {
         downloadUrlAsync(this, url) {
             if (it != null) {
-                Log.d("ccc", it)
+
                 val mp = ObjectMapper()
                 val myObject: WeatherJsonObject = mp.readValue(
                     it,
@@ -161,11 +172,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // This function is called when user presses the "Get Weather" button. It changes the url strings "q=" part to match searchbars
+    // text and then calls fetchAndUpdateUI() function to fetch data from API and update the UI. Keyboard is also hidden when
+    // button is pressed.
     fun getWeather(btn : View) {
         url = "https://api.openweathermap.org/data/2.5/weather?q=${searchBar.text}&units=metric&appid=bc2d40bf4e1d09c80f0383a56d873af0"
         fetchAndUpdateUI()
         hideKeyboard()
     }
+
+    // Functions for hiding the android keyboard
 
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
@@ -180,6 +196,9 @@ class MainActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    // This function asynchronously fetches data from API. It creates a new thread and inside it calls
+    // getUrl method. The Unit returning function called "function" is then called in the UI thread.
+    // it is used in the fetchAndUpdateUI function as lambda.
     private fun downloadUrlAsync(a: Activity, s: String, function: (l: String?) -> Unit) {
         thread() {
             val lines: String? = getUrl(s)
@@ -190,6 +209,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    // This function creates the HttpURLConnection and does the fetching from the API.
+    // The function has error handling, so if the response code is not 200 ("OK") then
+    // the UI is updated with error message. Get Forecast button is also hidden if response code is not 200.
 
     fun getUrl(url: String): String? {
 
@@ -227,6 +250,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // This function is called when user presses the Get Forecast button.
+    // The function creates a new Intent and puts as extra the latitude and longitude information
+    // and then starts the Forecast Activity.
     fun getForecast(btn: View) {
         val intent = Intent(this, ForecastActivity::class.java)
         intent.putExtra("latitude", lat.toString())
@@ -234,6 +260,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    // This function is called when the Activity is switched to Forecast Activity
+    // Here the app saves city name and the current url so the app can re-fetch the same location
+    // when user returns from the Forecast Activity.
     override fun onSaveInstanceState(outState: Bundle) {
         var saveThis = cityName.text
         var saveUrl = url
@@ -242,6 +272,10 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+
+    //This function is called when user returns from the Forecast Activity.
+    // The function restores the saved data the app saved in the onSaveInstanceState
+    // and then calls the fetchAndUpdateUI again to update the UI.
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         val restoreCity : String? = savedInstanceState.getString("city")
