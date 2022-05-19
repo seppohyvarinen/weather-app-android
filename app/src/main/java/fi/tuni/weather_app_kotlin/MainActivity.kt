@@ -25,6 +25,12 @@ import java.net.URL
 import kotlin.concurrent.thread
 import kotlin.math.roundToInt
 
+/*
+MainActivity class is the default Activity that launches to user.
+This activity handles getting the user location, fetching weather by location, fetching weather by city name
+and starting the Forecast Activity when user wants to see the forecast.
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
