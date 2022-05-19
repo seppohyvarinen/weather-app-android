@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         searchBar = findViewById<EditText>(R.id.search_bar)
         wImg = findViewById<ImageView>(R.id.weatherImage)
         forecastBtn = findViewById<Button>(R.id.Get_forecast)
-        Log.d("Getting", "second")
 
 
         if(savedInstanceState?.getString("city") == null) {
@@ -144,7 +143,6 @@ class MainActivity : AppCompatActivity() {
 
                 val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
 
-                Log.d("check", descObj.toString())
                 runOnUiThread() {
                     cityName.text = loc.toString()
                     if (mainData != null) {
@@ -152,7 +150,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (descObj != null) {
                         desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }
-                        Log.d("hghg", desc.text.toString())
                         Picasso.get().load("https://openweathermap.org/img/w/" +
                                 descObj.get(0).icon +
                                 ".png").into(wImg)
@@ -198,7 +195,6 @@ class MainActivity : AppCompatActivity() {
 
         val myUrl = URL(url)
         val conn = myUrl.openConnection() as HttpURLConnection
-        Log.d("koodi", conn.responseCode.toString())
 
         if (conn.responseCode == 200) {
             val reader = BufferedReader(InputStreamReader(conn.getInputStream()));
@@ -244,7 +240,6 @@ class MainActivity : AppCompatActivity() {
         outState.putString("city", saveThis.toString())
         outState.putString("url", saveUrl.toString())
         super.onSaveInstanceState(outState)
-        Log.d("TAG", "onSaveInstanceState()")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -258,7 +253,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("Getting", "first")
             fetchAndUpdateUI()
         }
-        Log.d("TAG", "onRestoreInstanceState()")
     }
 
 
