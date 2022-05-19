@@ -115,7 +115,8 @@
             android:text="Get forecast"
             android:layout_margin="20dp"
             android:textColor="@color/teal_700"
-            app:backgroundTint="#7DFDE8" />
+            app:backgroundTint="#7DFDE8"
+            android:visibility="invisible"/>
     </LinearLayout>
 
 

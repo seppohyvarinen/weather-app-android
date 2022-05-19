@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -42,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var desc : TextView
     lateinit var searchBar : EditText
     lateinit var wImg : ImageView
-
+    lateinit var forecastBtn : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +55,9 @@ class MainActivity : AppCompatActivity() {
         desc = findViewById<TextView>(R.id.description)
         searchBar = findViewById<EditText>(R.id.search_bar)
         wImg = findViewById<ImageView>(R.id.weatherImage)
+        forecastBtn = findViewById<Button>(R.id.Get_forecast)
         Log.d("Getting", "second")
+
 
         if(savedInstanceState?.getString("city") == null) {
             getCurrentLocation()
@@ -204,6 +203,10 @@ class MainActivity : AppCompatActivity() {
         if (conn.responseCode == 200) {
             val reader = BufferedReader(InputStreamReader(conn.getInputStream()));
 
+            runOnUiThread() {
+                forecastBtn.visibility = View.VISIBLE
+
+            }
             return buildString {
                 reader.use {
                     var line: String? = null
@@ -215,7 +218,9 @@ class MainActivity : AppCompatActivity() {
             }
         }  else {
 
+
             runOnUiThread(){
+                forecastBtn.visibility = View.INVISIBLE
                 cityName.text = "Can't find this location"
                 temperature.text = "-"
                 desc.text = "-"
