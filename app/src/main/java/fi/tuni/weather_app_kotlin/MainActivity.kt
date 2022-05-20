@@ -259,6 +259,8 @@ class MainActivity : AppCompatActivity() {
                 cityName.text = "Can't find this location"
                 temperature.text = "-"
                 desc.text = "-"
+                feelsLike.text = "-"
+                windSpeed.text = "-"
             }
             return null
         }
