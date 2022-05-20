@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchBar : EditText
     lateinit var wImg : ImageView
     lateinit var forecastBtn : Button
+    lateinit var feelsLike : TextView
+    lateinit var windSpeed : TextView
 
 
     // Called when app is created. Initializes UI Components, the fusedproviderclient and checks the savedInstanceState Bundle.
@@ -62,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         searchBar = findViewById<EditText>(R.id.search_bar)
         wImg = findViewById<ImageView>(R.id.weatherImage)
         forecastBtn = findViewById<Button>(R.id.Get_forecast)
+        feelsLike = findViewById<TextView>(R.id.feels_like)
+        windSpeed = findViewById<TextView>(R.id.wSpeed)
 
         // If there is data by this key in the savedInstanceState Bundle,
         // the app won't call the getCurrentLocation function, since it
@@ -156,6 +160,7 @@ class MainActivity : AppCompatActivity() {
                 lon = myObject.coord!!.lon
                 val loc: String? = myObject.name
                 val mainData : WeatherMain? = myObject.main
+                val windData : WeatherWindObject? = myObject.wind
 
                 val descObj : MutableList<WeatherDescriptionObject>? = myObject.weather
 
@@ -163,6 +168,8 @@ class MainActivity : AppCompatActivity() {
                     cityName.text = loc.toString()
                     if (mainData != null) {
                         temperature.text = mainData.temp?.roundToInt().toString() + "°C"
+                        feelsLike.text = "Feels like ${mainData.feels_like?.roundToInt()}°C"
+                        windSpeed.text = "${windData?.speed.toString()} m/s"
                     }
                     if (descObj != null) {
                         desc.text = descObj.get(0).description.toString().replaceFirstChar { it.uppercase() }

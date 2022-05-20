@@ -6,4 +6,4 @@ This dataclass stores the coord, city name, main (temperature) and weather (desc
 Uses jackson to map the json.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherJsonObject(var coord : CoordinateObject? = null, var name: String? = null, var main : WeatherMain? = null, var weather : MutableList<WeatherDescriptionObject>? = null, var cod : String? = null)
+data class WeatherJsonObject(var coord : CoordinateObject? = null,var wind : WeatherWindObject? = null, var name: String? = null, var main : WeatherMain? = null, var weather : MutableList<WeatherDescriptionObject>? = null, var cod : String? = null)
