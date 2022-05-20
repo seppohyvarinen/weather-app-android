@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchBar : EditText
     lateinit var wImg : ImageView
     lateinit var forecastBtn : Button
+    lateinit var locBtn : Button
     lateinit var feelsLike : TextView
     lateinit var windSpeed : TextView
 
@@ -66,7 +67,10 @@ class MainActivity : AppCompatActivity() {
         forecastBtn = findViewById<Button>(R.id.Get_forecast)
         feelsLike = findViewById<TextView>(R.id.feels_like)
         windSpeed = findViewById<TextView>(R.id.wSpeed)
-
+        locBtn = findViewById<Button>(R.id.Current_Location)
+        locBtn.setOnClickListener {
+            getCurrentLocation()
+        }
         // If there is data by this key in the savedInstanceState Bundle,
         // the app won't call the getCurrentLocation function, since it
         // would cause undesired fetch when user has searched weather from somewhere else.
