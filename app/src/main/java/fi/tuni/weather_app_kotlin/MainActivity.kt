@@ -240,6 +240,7 @@ class MainActivity : AppCompatActivity() {
 
             runOnUiThread() {
                 forecastBtn.visibility = View.VISIBLE
+                wImg.visibility = View.VISIBLE
 
             }
             return buildString {
@@ -261,6 +262,7 @@ class MainActivity : AppCompatActivity() {
                 desc.text = "-"
                 feelsLike.text = "-"
                 windSpeed.text = "-"
+                wImg.visibility = View.INVISIBLE
             }
             return null
         }
