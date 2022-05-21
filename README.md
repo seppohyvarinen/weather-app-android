@@ -3,7 +3,7 @@
 This is a basic weather application that uses the users location
 in providing weather data for that specific location.
 User can also search for weather data all over the world.
-Also the app shows the user a 5 day forecast.
+Forecast is also available.
 
 # Author
 
@@ -11,7 +11,10 @@ Seppo Hyvärinen
 
 # Screenshots
 
-Soon!
+![Demo pic](screenshots/scsh2.jpg)
+![Demo pic2](screenshots/scsh1.jpg)
+![Demo pic3](screenshots/scsh3.jpg)
+![Demo pic4](screenshots/scsh4.jpg)
 
 # Technologies/Framework & Target devices
 
